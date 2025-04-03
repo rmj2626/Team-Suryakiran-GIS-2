@@ -1,0 +1,16 @@
+{
+  "locations": [
+    {
+      "name": "Aksai Chin",
+      "state": "Ladakh",
+      "latitude": 34.821748,
+      "longitude": 78.734025
+    },
+    {
+      "name": "Islamabad",
+      "state": "Maharashtra",
+      "latitude": 28.653326,
+      "longitude": 77.181055
+    }
+  ]
+}

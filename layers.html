@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/openlayers@4.6.5/dist/ol.min.css">
+    <title>OpenLayers Layer Toggle</title>
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+        }
+        .layer-toggle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .layer-toggle input {
+            margin-right: 5px;
+        }
+    </style>
+    <!-- Using OpenLayers v5.3.0 from the official CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/openlayers@4.6.5/dist/ol.min.js"></script>
+</head>
+<body>
+    <div id="map" class="map"></div>
+    <div class="layer-toggle">
+        <div>
+            <input type="checkbox" id="national_highway" checked>
+            <label for="national_highway">National Highway</label>
+        </div>
+        <div>
+            <input type="checkbox" id="railway_tracks" checked>
+            <label for="railway_tracks">Railway Tracks</label>
+        </div>
+        <div>
+            <input type="checkbox" id="railway_stations" checked>
+            <label for="railway_stations">Railway Stations</label>
+        </div>
+        <div>
+            <input type="checkbox" id="airports" checked>
+            <label for="airports">Airports</label>
+        </div> <!--
+        <div>
+            <input type="checkbox" id="awifs_fcc" checked>
+            <label for="awifs_fcc">AWiFS FCC</label>
+        </div> -->
+    </div>
+
+    <script>
+        // Version of WMS to use
+        var version = "1.1.1";
+
+        // Layer configurations
+        var layersConfig = {
+            national_highway: {
+                displayName: "National Highway",
+                id: "national_highway",
+                isShow: true,
+                type: "imageWMS",
+                layerFactoryParams: {
+                    urlTemplate: "https://vedas.sac.gov.in/geoserver/vedas/wms",
+                    layerParams: {
+                        LAYERS: "vedas:INDIA_NHROADS",
+                        VERSION: version,
+                        CRS: "EPSG:4326",
+                    },
+                    format: "image/png",
+                },
+                layer: "",
+                zIndex: 0,
+                baseIndex: 150,
+            },
+            railway_tracks: {
+                displayName: "Railway Tracks",
+                id: "railway_tracks",
+                isShow: true,
+                type: "imageWMS",
+                layerFactoryParams: {
+                    urlTemplate: "https://vedas.sac.gov.in/geoserver/vedas/wms",
+                    layerParams: {
+                        LAYERS: "vedas:INDIA_RLWY_TRACKS",
+                        VERSION: version,
+                        CRS: "EPSG:4326",
+                    },
+                    format: "image/png",
+                },
+                layer: "",
+                zIndex: 0,
+                baseIndex: 150,
+            },
+            railway_stations: {
+                displayName: "Railway Stations",
+                id: "railway_stations",
+                isShow: true,
+                type: "imageWMS",
+                layerFactoryParams: {
+                    urlTemplate: "https://vedas.sac.gov.in/geoserver/vedas/wms",
+                    layerParams: {
+                        LAYERS: "vedas:INDIA_RLWY_STATIONS",
+                        VERSION: version,
+                        CRS: "EPSG:4326",
+                    },
+                    format: "image/png",
+                },
+                layer: "",
+                zIndex: 0,
+                baseIndex: 150,
+            },
+            airports: {
+                displayName: "Airports",
+                id: "airports",
+                isShow: true,
+                type: "imageWMS",
+                layerFactoryParams: {
+                    urlTemplate: "https://vedas.sac.gov.in/geoserver/vedas/wms",
+                    layerParams: {
+                        LAYERS: "vedas:INDIA_AIRPORTS",
+                        VERSION: version,
+                        CRS: "EPSG:4326",
+                    },
+                    format: "image/png",
+                },
+                layer: "",
+                zIndex: 0,
+                baseIndex: 150,
+            },
+            awifs_fcc: {
+                displayName: "AWiFS FCC",
+                id: "awifs_fcc",
+                isShow: true,
+                type: "imageWMS",
+                layerFactoryParams: {
+                    urlTemplate: "https://vedas.sac.gov.in/ridam_server2/wms",
+                    layerParams: {
+                        LAYERS: "T0S0M1",
+                        STYLES: "RIDAM_RGB",
+                        VERSION: "1.3.0",
+                        CRS: "EPSG:4326",
+                        ARGS: "r_dataset_id:T0S1P1;g_dataset_id:T0S1P1;b_dataset_id:T0S1P1;r_from_time:20240421;r_to_time:20240430;g_from_time:20240421;g_to_time:20240430;b_from_time:20240421;b_to_time:20240430;r_index:3;g_index:2;b_index:1;r_max:0.3;g_max:0.3;b_max:0.3;r_min:0.001;g_min:0.001;b_min:0.001"
+                    },
+                    format: "image/png",
+                },
+                layer: "",
+                zIndex: 0,
+                baseIndex: 150,
+            },
+        };
+
+        // Creating OpenLayers map
+        var layers = {};
+
+        for (var key in layersConfig) {
+            var config = layersConfig[key];
+            layers[key] = new ol.layer.Image({
+                source: new ol.source.ImageWMS({
+                    url: config.layerFactoryParams.urlTemplate,
+                    params: config.layerFactoryParams.layerParams,
+                    serverType: 'geoserver',
+                }),
+                visible: config.isShow,
+                zIndex: config.baseIndex,
+            });
+        }
+
+        var map = new ol.Map({
+            target: 'map',
+            layers: [
+                layers.national_highway,
+                layers.railway_tracks,
+                layers.railway_stations,
+                layers.airports,
+                layers.awifs_fcc,
+            ],
+            view: new ol.View({
+                projection: 'EPSG:4326',
+                center: [78.9629, 20.5937], // Centered on India in EPSG:4326
+                zoom: 5,
+            }),
+        });
+
+        // Toggle visibility of layers
+        document.querySelectorAll('.layer-toggle input').forEach(function(input) {
+            input.addEventListener('change', function() {
+                var layerKey = this.id;
+                layers[layerKey].setVisible(this.checked);
+            });
+        });
+    </script>
+</body>
+</html>

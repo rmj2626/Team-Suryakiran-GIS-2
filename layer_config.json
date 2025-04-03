@@ -1,0 +1,382 @@
+{
+  "layers": [
+    {
+      "name": "Land Degradation(50k):2015-16",
+      "description": "This layer shows the Land Degradation status of India for the year 2015-16. Land Degradation is a process in which the value of the biophysical environment is affected by a combination of human-induced processes acting upon the land. It is viewed as any change or disturbance to the land perceived to be deleterious or undesirable.",
+      "rootUrl": "https://bhuvan-vec2.nrsc.gov.in/bhuvan/wms",
+      "states": [
+        {
+          "name": "Andaman and Nicobar",
+          "layerName": "ld:AN_LD50K_1516"
+        },
+        {
+          "name": "Andhra Pradesh",
+          "layerName": "ld:AP_LD50K_1516"
+        },
+        {
+          "name": "Arunachal Pradesh",
+          "layerName": "ld:AR_LD50K_1516"
+        },
+        {
+          "name": "Assam",
+          "layerName":"ld:AS_LD50K_1516" 
+        },
+        {
+          "name": "Bihar",
+          "layerName": "ld:BR_LD50K_1516"
+        },
+        {
+          "name": "Chandigarh",
+          "layerName":  "ld:CG_LD50K_1516"
+        },
+        {
+          "name": "Chhattisgarh",
+          "layerName": "ld:CH_LD50K_1516"
+        },
+        {
+          "name": "Dadar Nagar Haveli",
+          "layerName": "ld:DN_LD50K_1516"
+        },
+        {
+          "name": "Daman and Diu",
+          "layerName": "ld:DD_LD50K_1516"
+        },
+        {
+          "name": "Delhi",
+          "layerName": "ld:DL_LD50K_1516"
+        },
+        {
+          "name": "Goa",
+          "layerName": "ld:GA_LD50K_1516"
+        },
+        {
+          "name": "Gujarat",
+          "layerName": "ld:GJ_LD50K_1516"
+        },
+        {
+          "name": "Haryana",
+          "layerName": "ld:HR_LD50K_1516"
+        },
+        {
+          "name": "Himachal Pradesh",
+          "layerName": "ld:HP_LD50K_1516"
+        },
+        {
+          "name": "Jammu and Kashmir",
+          "layerName": "ld:JK_LD50K_1516"
+        },
+        {
+          "name": "Jharkhand",
+          "layerName": "ld:JH_LD50K_1516"
+        },
+        {
+          "name": "Karnataka",
+          "layerName": "ld:KA_LD50K_1516"
+        },
+        {
+          "name": "Kerala",
+          "layerName": "ld:KL_LD50K_1516"
+        },
+        {
+          "name": "Lakshdweep",
+          "layerName":  "ld:LD_LD50K_1516"
+        },
+        {
+          "name": "Madhya Pradesh",
+          "layerName": "ld:MP_LD50K_1516"
+        },
+        {
+          "name": "Maharashtra",
+          "layerName": "ld:MH_LD50K_1516"
+        },
+        {
+          "name": "Manipur",
+          "layerName":  "ld:MN_LD50K_1516"
+        },
+        {
+          "name": "Meghalaya",
+          "layerName": "ld:ML_LD50K_1516"
+        },
+        {
+          "name": "Mizoram",
+          "layerName": "ld:MZ_LD50K_1516"
+        },
+        {
+          "name": "Nagaland",
+          "layerName":  "ld:NL_LD50K_1516"
+        },
+        {
+          "name": "Odisha",
+          "layerName":  "ld:OR_LD50K_1516"
+        },
+        {
+          "name": "Puducherry",
+          "layerName": "ld:PY_LD50K_1516"
+        },
+        {
+          "name": "Punjab",
+          "layerName": "ld:PB_LD50K_1516"
+        },
+        {
+          "name": "Rajasthan",
+          "layerName":  "ld:RJ_LD50K_1516"
+        },
+        {
+          "name": "Sikkim",
+          "layerName": "ld:SK_LD50K_1516"
+        },
+        {
+          "name": "Tamil Nadu",
+          "layerName": "ld:TN_LD50K_1516"
+        },
+        {
+          "name": "Telangana",
+          "layerName": "ld:TS_LD50K_1516"
+        },
+        {
+          "name": "Tripura",
+          "layerName": "ld:TR_LD50K_1516"
+        },
+        {
+          "name": "Uttarakhand",
+          "layerName": "ld:UK_LD50K_1516"
+        },
+        {
+          "name": "Uttar Pradesh",
+          "layerName": "ld:UP_LD50K_1516"
+        },
+        {
+          "name": "West Bengal",
+          "layerName": "ld:WB_LD50K_1516"
+        }
+      ]
+    },
+    {
+      "name": "Land Use Land Cover (50K)",
+      "description":"This layer shows the Land Use Land Cover status of India for the year 2015-16. Land use/land cover , LULC is a category that refers to the classification of the Earth's surface based on various attributes such as vegetation, urban areas, water, and soil.",
+      "rootUrl": "https://bhuvan-vec2.nrsc.gov.in/bhuvan/wms",
+      "states": [
+        {
+          "name": "Andaman and Nicobar",
+          "layerName":  "lulc:AN_LULC50K_1516"
+        },
+        {
+          "name": "Andhra Pradesh",
+          "layerName": "lulc:AP_LULC50K_1516"
+        },
+        {
+          "name": "Arunachal Pradesh",
+          "layerName": "lulc:AR_LULC50K_1516"
+        },
+        {
+          "name": "Assam",
+          "layerName": "lulc:AS_LULC50K_1516"
+        },
+        {
+          "name": "Bihar",
+          "layerName": "lulc:BR_LULC50K_1516"
+        },
+        {
+          "name": "Chandigarh",
+          "layerName": "lulc:CG_LULC50K_1516"
+        },
+        {
+          "name": "Chhattisgarh",
+          "layerName": "lulc:CH_LULC50K_1516"
+        },
+        {
+          "name": "Dadra Nagar Haveli",
+          "layerName": "lulc:DN_LULC50K_1516"
+        },
+        {
+          "name": "Daman and Diu",
+          "layerName": "lulc:DD_LULC50K_1516"
+        },
+        {
+          "name": "Delhi",
+          "layerName": "lulc:DL_LULC50K_1516"
+        },
+        {
+          "name": "Goa",
+          "layerName":  "lulc:GA_LULC50K_1516"
+        },
+        {
+          "name": "Gujarat",
+          "layerName": "lulc:GJ_LULC50K_1516"
+        },
+        {
+          "name": "Haryana",
+          "layerName": "lulc:HR_LULC50K_1516"
+        },
+        {
+          "name": "Himachal Pradesh",
+          "layerName": "lulc:HP_LULC50K_1516"
+        },
+        {
+          "name": "Jammu and Kashmir",
+          "layerName": "lulc:JK_LULC50K_1516"
+        },
+        {
+          "name": "Jharkhand",
+          "layerName": "lulc:JH_LULC50K_1516"
+        },
+        {
+          "name": "Karnataka",
+          "layerName": "lulc:KA_LULC50K_1516"
+        },
+        {
+          "name": "Kerala",
+          "layerName": "lulc:KL_LULC50K_1516"
+        },
+        {
+          "name": "Lakshadweep",
+          "layerName": "lulc:LD_LULC50K_1516"
+        },
+        {
+          "name": "Madhya Pradesh",
+          "layerName": "lulc:MP_LULC50K_1516"
+        },
+        {
+          "name": "Maharashtra",
+          "layerName": "lulc:MH_LULC50K_1516"
+        },
+        {
+          "name": "Manipur",
+          "layerName":  "lulc:MN_LULC50K_1516"
+        },
+        {
+          "name": "Meghalaya",
+          "layerName": "lulc:ML_LULC50K_1516"
+        },
+        {
+          "name": "Mizoram",
+          "layerName": "lulc:MZ_LULC50K_1516"
+        },
+        {
+          "name": "Nagaland",
+          "layerName": "lulc:NL_LULC50K_1516"
+        },
+        {
+          "name": "Odisha",
+          "layerName": "lulc:OR_LULC50K_1516"
+        },
+        {
+          "name": "Puducherry",
+          "layerName": "lulc:PY_LULC50K_1516"
+        },
+        {
+          "name": "Punjab",
+          "layerName": "lulc:PB_LULC50K_1516"
+        },
+        {
+          "name": "Rajasthan",
+          "layerName": "lulc:RJ_LULC50K_1516"
+        },
+        {
+          "name": "Sikkim",
+          "layerName": "lulc:SK_LULC50K_1516"
+        },
+        {
+          "name": "Tamil Nadu",
+          "layerName": "lulc:TN_LULC50K_1516"
+        },
+        {
+          "name": "Telangana",
+          "layerName": "lulc:TS_LULC50K_1516"
+        },
+        {
+          "name": "Tripura",
+          "layerName": "lulc:TR_LULC50K_1516"
+        },
+        {
+          "name": "Uttarakhand",
+          "layerName":  "lulc:UK_LULC50K_1516"
+        },
+        {
+          "name": "Uttar Pradesh",
+          "layerName": "lulc:UP_LULC50K_1516"
+        },
+        {
+          "name": "West Bengal",
+          "layerName": "lulc:WB_LULC50K_1516"
+        }
+      ]
+    },
+    {
+      "name": "National Highway",
+      "description": "National Highway layer for India",
+      "id": "national_highway",
+      "isShow": true,
+      "type": "imageWMS",
+      "layerFactoryParams": {
+        "urlTemplate": "https://vedas.sac.gov.in/geoserver/vedas/wms",
+        "layerParams": {
+          "LAYERS": "vedas:INDIA_NHROADS",
+          "VERSION": "1.3.0",
+          "CRS": "EPSG:4326"
+        },
+        "format": "image/png"
+      },
+      "layer": "",
+      "zIndex": 0,
+      "baseIndex": 150
+    },
+    {
+      "name": "Railway Tracks",
+      "description": "Railway Tracks layer for India",
+      "id": "railway_tracks",
+      "isShow": true,
+      "type": "imageWMS",
+      "layerFactoryParams": {
+        "urlTemplate": "https://vedas.sac.gov.in/geoserver/vedas/wms",
+        "layerParams": {
+          "LAYERS": "vedas:INDIA_RLWY_TRACKS",
+          "VERSION": "1.3.0",
+          "CRS": "EPSG:4326"
+        },
+        "format": "image/png"
+      },
+      "layer": "",
+      "zIndex": 0,
+      "baseIndex": 150
+    },
+    {
+      "name": "Railway Stations",
+      "description": "Railway Stations layer for India",
+      "id": "railway_stations",
+      "isShow": true,
+      "type": "imageWMS",
+      "layerFactoryParams": {
+        "urlTemplate": "https://vedas.sac.gov.in/geoserver/vedas/wms",
+        "layerParams": {
+          "LAYERS": "vedas:INDIA_RLWY_STATIONS",
+          "VERSION": "1.3.0",
+          "CRS": "EPSG:4326"
+        },
+        "format": "image/png"
+      },
+      "layer": "",
+      "zIndex": 0,
+      "baseIndex": 150
+    },
+    {
+      "name": "Airports",
+      "description": "Airports layer for India",
+      "id": "airports",
+      "isShow": true,
+      "type": "imageWMS",
+      "layerFactoryParams": {
+        "urlTemplate": "https://vedas.sac.gov.in/geoserver/vedas/wms",
+        "layerParams": {
+          "LAYERS": "vedas:INDIA_AIRPORTS",
+          "VERSION": "1.3.0",
+          "CRS": "EPSG:4326"
+        },
+        "format": "image/png"
+      },
+      "layer": "",
+      "zIndex": 0,
+      "baseIndex": 150
+    }
+  ]
+}

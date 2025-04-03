@@ -1,0 +1,389 @@
+#map {
+    width: 100%;
+    height: 500px;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.9) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .loading-spinner {
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid #ffffff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  #loadingText {
+    color: #ffffff;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .blur-background {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px 20px;
+    color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.logo {
+    height: 50px;
+}
+
+.search-input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 16px;
+    flex: 1;
+    margin-left: 10px;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-container i {
+    font-size: 18px;
+    color: #3a78e3;
+    cursor: pointer;
+}
+
+.search-container i {
+    /* font-size: 18px;
+    color: #3a78e3;
+    cursor: pointer; */
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 5px 15px;
+    width: 100px;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 24px;
+    padding: 5px 15px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.command-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 300px;
+    background-color: white;
+    border-radius: 0 0 8px 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: none;
+}
+
+.command-options label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#process-command {
+    width: 100%;
+    padding: 8px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.layer-box {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  width: 250px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* Hide the layer-box by default */
+}
+
+.layer-box p {
+  margin: 0 0 10px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+#wmsForm div {
+  margin-bottom: 10px;
+}
+
+#wmsForm label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+#wmsForm select, #wmsForm button {
+  width: 100%;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+#wmsForm button {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#wmsForm button:hover {
+  background-color: #3367d6;
+}
+
+#recordButton.recording {
+  color: red; /* or any other visual indicator */
+}
+
+#process-command {
+  width: 100%;
+    padding: 8px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.processing-symbol {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #3a78e3;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width:100%;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #3a78e3;
+  margin-left: 50px;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon-container i {
+  font-size: 20px;
+  color: #3a78e3;
+  cursor: pointer;
+}
+
+.processing-button {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #3a78e3;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#map {
+  width: 100%;
+  height: calc(100vh - 60px);
+}
+.loaded-layers-box {
+  position: absolute;
+  top: 130px; /* Adjust this value to position it just below the navigation bar */
+  left: 10px;
+  margin-top: -50px;
+  background-color: rgba(255, 255, 255, 1.0);
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 200px; /* Adjust width as needed */
+}
+
+.loaded-layers-box h3 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.loaded-layers-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.loaded-layers-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.loaded-layers-list li::before {
+  content: "\f233"; /* FontAwesome icon for layers */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 5px;
+}
+
+.loaded-layers-box .remove-layer {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #4285f4;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 14px;
+  z-index: 1000;
+}
+
+.footer-center {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.footer-right {
+  display: flex;
+  gap: 10px;
+}
+
+#coordinates, #scale {
+  color: white;
+}
+
+.isro-logo {
+  z-index: 1;
+  position: fixed;
+  bottom: 35px;
+  right: 15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  animation: pulse 2s infinite;
+}
+
+.isro-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }a
+  100% {
+    transform: scale(1);
+  }
+}

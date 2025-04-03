@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Layer Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .container { max-width: 800px; }
+        .form-container { background-color: white; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.1); padding: 30px; }
+        h1 { color: #0056b3; }
+        .key-value-pair { margin-bottom: 10px; }
+        .btn-add-pair { width: 100%; }
+        .form-buttons { display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="form-container">
+            <h1 class="mb-4 text-center">Add Layer Data</h1>
+            <form id="layerForm">
+                <div class="mb-3">
+                    <label for="layerName" class="form-label">Layer Name (required):</label>
+                    <input type="text" class="form-control" id="layerName" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description (required):</label>
+                    <textarea class="form-control" id="description" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dataType" class="form-label">Data Type:</label>
+                    <select class="form-select" id="dataType">
+                        <option value="country">Entire Country</option>
+                        <option value="state">State-wise</option>
+                    </select>
+                </div>
+
+                <div id="stateFields" style="display:none;">
+                    <div class="mb-3">
+                        <label for="rootUrl" class="form-label">Root URL (required for state-wise):</label>
+                        <input type="text" class="form-control" id="rootUrl">
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="allStates">
+                        <label class="form-check-label" for="allStates">Add for all states</label>
+                    </div>
+
+                    <div id="singleStateField" class="mb-3">
+                        <label for="stateName" class="form-label">State Name:</label>
+                        <input type="text" class="form-control" id="stateName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="stateLayerName" class="form-label">Layer Name for State (e.g., ld:AN_LD50K_1516):</label>
+                        <input type="text" class="form-control" id="stateLayerName">
+                    </div>
+                </div>
+
+                <div id="optionalFields">
+                    <h3>Optional Fields:</h3>
+                    <div class="mb-3">
+                        <label for="styles" class="form-label">Styles:</label>
+                        <input type="text" class="form-control" id="styles">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="version" class="form-label">Version:</label>
+                        <input type="text" class="form-control" id="version">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="crs" class="form-label">CRS:</label>
+                        <input type="text" class="form-control" id="crs">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="args" class="form-label">ARGS:</label>
+                        <textarea class="form-control" id="args"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type:</label>
+                        <input type="text" class="form-control" id="type">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="format" class="form-label">Format:</label>
+                        <input type="text" class="form-control" id="format">
+                    </div>
+                </div>
+
+                <div id="keyValuePairs">
+                    <h3>Custom Key-Value Pairs:</h3>
+                    <div class="key-value-pair row">
+                        <div class="col">
+                            <input type="text" class="form-control key" placeholder="Key">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control value" placeholder="Value">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-buttons mt-4">
+                    <button type="button" id="addKeyValuePair" class="btn btn-secondary btn-add-pair">Add Another Key-Value Pair</button>
+                    <button type="submit" class="btn btn-primary">Add Layer</button>
+                </div>
+            </form>
+
+            <div id="result" class="mt-4 alert" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const stateAbbreviations = {
+            "Andaman and Nicobar": "AN", "Andhra Pradesh": "AP", "Arunachal Pradesh": "AR",
+            "Assam": "AS", "Bihar": "BR", "Chandigarh": "CG", "Chhattisgarh": "CH",
+            "Dadra Nagar Haveli": "DN", "Daman and Diu": "DD", "Delhi": "DL",
+            "Goa": "GA", "Gujarat": "GJ", "Haryana": "HR", "Himachal Pradesh": "HP",
+            "Jammu and Kashmir": "JK", "Jharkhand": "JH", "Karnataka": "KA",
+            "Kerala": "KL", "Lakshadweep": "LD", "Madhya Pradesh": "MP",
+            "Maharashtra": "MH", "Manipur": "MN", "Meghalaya": "ML", "Mizoram": "MZ",
+            "Nagaland": "NL", "Odisha": "OR", "Puducherry": "PY", "Punjab": "PB",
+            "Rajasthan": "RJ", "Sikkim": "SK", "Tamil Nadu": "TN", "Telangana": "TS",
+            "Tripura": "TR", "Uttarakhand": "UK", "Uttar Pradesh": "UP", "West Bengal": "WB"
+        };
+
+        document.getElementById('dataType').addEventListener('change', function() {
+            document.getElementById('stateFields').style.display =
+                this.value === 'state' ? 'block' : 'none';
+        });
+
+        document.getElementById('allStates').addEventListener('change', function() {
+            document.getElementById('singleStateField').style.display =
+                this.checked ? 'none' : 'block';
+        });
+
+                document.getElementById('addKeyValuePair').addEventListener('click', function() {
+            const newPair = document.createElement('div');
+            newPair.className = 'key-value-pair row mt-2';
+            newPair.innerHTML = `
+                <div class="col">
+                    <input type="text" class="form-control key" placeholder="Key">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control value" placeholder="Value">
+                </div>
+            `;
+            document.getElementById('keyValuePairs').appendChild(newPair);
+        });
+
+        document.getElementById('layerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newLayer = {
+                name: document.getElementById('layerName').value,
+                description: document.getElementById('description').value
+            };
+
+            if (document.getElementById('dataType').value === 'country') {
+                // Add country-wide layer
+                Object.assign(newLayer, {
+                    id: newLayer.name.toLowerCase().replace(/\s+/g, '_'),
+                    isShow: true,
+                    type: document.getElementById('type').value || "imageWMS",
+                    layerFactoryParams: {
+                        urlTemplate: "https://vedas.sac.gov.in/geoserver/vedas/wms",
+                        layerParams: {
+                            LAYERS: `vedas:${newLayer.name.toUpperCase().replace(/\s+/g, '_')}`,
+                            VERSION: document.getElementById('version').value || "1.3.0",
+                            CRS: document.getElementById('crs').value || "EPSG:4326",
+                            STYLES: document.getElementById('styles').value || "",
+                            ARGS: document.getElementById('args').value || ""
+                        },
+                        format: document.getElementById('format').value || "image/png"
+                    },
+                    layer: "",
+                    zIndex: 0,
+                    baseIndex: 150
+                });
+            } else {
+                // Add state-wise layer
+                newLayer.rootUrl = document.getElementById('rootUrl').value;
+                newLayer.states = [];
+                const stateLayerName = document.getElementById('stateLayerName').value;
+                const statePrefix = stateLayerName.split('_')[0];
+
+                if (document.getElementById('allStates').checked) {
+                    for (const [stateName, stateCode] of Object.entries(stateAbbreviations)) {
+                        newLayer.states.push({
+                            name: stateName,
+                            layerName: `${statePrefix}:${stateCode}_${stateLayerName.split(':')[1]}`
+                        });
+                    }
+                } else {
+                    const stateName = document.getElementById('stateName').value;
+                    newLayer.states.push({
+                        name: stateName,
+                        layerName: stateLayerName
+                    });
+                }
+            }
+
+            // Add custom key-value pairs
+            const keyValuePairs = document.querySelectorAll('.key-value-pair');
+            keyValuePairs.forEach(pair => {
+                const key = pair.querySelector('.key').value;
+                const value = pair.querySelector('.value').value;
+                if (key && value) {
+                    newLayer[key] = value;
+                }
+            });
+
+            fetch('/add_layer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newLayer),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                resultDiv.textContent = data.message || data.error;
+                resultDiv.className = data.message ? 'mt-4 alert alert-success' : 'mt-4 alert alert-danger';
+                resultDiv.style.display = 'block';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                const resultDiv = document.getElementById('result');
+                resultDiv.textContent = 'Error adding layer: ' + error.message;
+                resultDiv.className = 'mt-4 alert alert-danger';
+                resultDiv.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
+`

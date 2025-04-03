@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suryakiran - Voice Controlled GIS for ISRO</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.0.0/ol.css">
+    <script src="https://cdn.jsdelivr.net/npm/ol@v10.0.0/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="map_styles.css" />
+</head>
+
+<body>
+    <div class="header">
+        <img src="suryakiran_logo.png" alt="Bhuvan Logo" class="logo">
+        <div class="search-wrapper">
+            <div class="search-container">
+                <input type="text" placeholder="Enter command..." class="search-input" id="nlpInput">
+                <button class="search-button"><i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="icon-container">
+                <button id="recordButton" class="icon-button">🎤</button>
+                <button id="layer-button" class="icon-button">📚</button>
+            </div>
+            <div id="command-options" class="command-options">
+                <button id="processCommandButton" onclick="handleProcessCommandUnique()">Process Command</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="map" class="map"></div>
+
+    <div id="layer-box" class="layer-box">
+        <p>WMS Layer viewer</p>
+        <form id="wmsForm">
+            <div>
+                <label for="layerSelect">Layer:</label>
+                <select id="layerSelect" name="layerSelect" onchange="populateStateSelect()">
+                    <option value="">Select a layer</option>
+                </select>
+            </div>
+            <div>
+                <label for="stateSelect">State:</label>
+                <select id="stateSelect" name="stateSelect">
+                    <option value="">Select a state</option>
+                </select>
+            </div>
+            <button type="submit">Show Layer</button>
+        </form>
+    </div>
+
+    <div id="loaded-layers-box" class="loaded-layers-box">
+        <h3></h3>
+        <ul id="layerList" class="loaded-layers-list">
+            <!-- Layers will be dynamically added here -->
+        </ul>
+    </div>
+
+    <div id="search-results"><label>
+      <input type="checkbox" id="automatic-checkbox" checked>
+      Automatic (Load highest possible match score)
+  </label></div>
+
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div id="loadingText">Loading models...</div>
+    </div>
+
+    <div id="footer" class="footer">
+        <div class="footer-center">
+            National Remote Sensing Centre
+        </div>
+        <div class="footer-right">
+            <span id="coordinates">18.96, 24.72</span>
+            <span id="scale"> | 500 km</span>
+        </div>
+    </div>
+
+    <div class="isro-logo">
+        <img src="is_ro.png" alt="ISRO Logo">
+    </div>
+
+    <script type="module" src="mapscript.js"></script>
+
+    <script type="module">
+        import {
+            pipeline,
+            env,
+        } from "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2";
+
+        function cosineSimilarity(arr1, arr2) {
+            if (arr1.length !== arr2.length) {
+                throw new Error("Arrays must have the same length");
+            }
+
+            let dotProduct = 0;
+            let magnitude1 = 0;
+            let magnitude2 = 0;
+
+            for (let i = 0; i < arr1.length; i++) {
+                dotProduct += arr1[i] * arr2[i];
+                magnitude1 += arr1[i] * arr1[i];
+                magnitude2 += arr2[i] * arr2[i];
+            }
+
+            magnitude1 = Math.sqrt(magnitude1);
+            magnitude2 = Math.sqrt(magnitude2);
+
+            if (magnitude1 === 0 || magnitude2 === 0) {
+                return 0; // Avoid division by zero
+            }
+
+            return dotProduct / (magnitude1 * magnitude2);
+        }
+
+        env.localModelPath = "http://localhost:8000/";
+
+        let classifier = await pipeline(
+            "token-classification",
+            "bert-small-onnx-v3.5",
+            { local_files_only: true, quantized: false }
+        );
+        const extractor = await pipeline(
+            "feature-extraction",
+            "Xenova/all-MiniLM-L6-v2"
+        );
+
+        window.runSimilaritySearch = async function (text1, text2) {
+            try {
+                const output = await extractor([text1, text2], {
+                    pooling: "mean",
+                    normalize: true,
+                });
+
+                const data = output.tolist();
+                const similarity = cosineSimilarity(data[0], data[1]);
+                return similarity;
+            } catch (error) {
+                console.error("Error running similarity search:", error);
+                return null;
+            }
+        };
+
+        window.runNLPModel = async function (text) {
+            try {
+                let result = await classifier(text);
+                console.log("NLP Model Output:", result);
+                return result;
+            } catch (error) {
+                console.error("Error running NLP model:", error);
+                return null;
+            }
+        };
+
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        const content = document.getElementById('content');
+
+        function showLoading(text) {
+            loadingText.textContent = text;
+            loadingOverlay.style.display = 'flex';
+            content.classList.add('blur-background');
+        }
+
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+            content.classList.remove('blur-background');
+        }
+
+        async function loadModels() {
+        showLoading('Loading BERT model...');
+        classifier = await pipeline(
+            "token-classification",
+            "bert-small-onnx-v3.5",
+            { local_files_only: true, quantized: false }
+        );
+        console.log('BERT model loaded successfully');
+
+        showLoading('Loading feature extraction model...');
+        extractor = await pipeline(
+            "feature-extraction",
+            "Xenova/all-MiniLM-L6-v2"
+        );
+        console.log('Feature extraction model loaded successfully');
+
+        hideLoading();
+    }
+
+    // Call loadModels when the page loads
+    window.addEventListener('DOMContentLoaded', loadModels);
+</script>
